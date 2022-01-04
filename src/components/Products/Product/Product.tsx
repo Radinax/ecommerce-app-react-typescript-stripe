@@ -18,7 +18,7 @@ interface Props {
 }
 
 const Product: React.FC<Props> = ({ product, onAddToCart }) => {
-  const { name, price, description, media, id } = product;
+  const { name, price, description, image, id } = product;
   const classes = useStyles();
 
   const handleAddToCart = () => onAddToCart(id, 1);
@@ -47,9 +47,11 @@ const Product: React.FC<Props> = ({ product, onAddToCart }) => {
     </IconButton>
   );
 
+  console.log("media", product);
+
   return (
     <Card className={classes.root}>
-      <CardMedia className={classes.media} image={media.source} title={name} />
+      <CardMedia className={classes.media} image={image.url} title={name} />
       <CardContent>
         <div className={classes.cardContent}>
           {ProductName}

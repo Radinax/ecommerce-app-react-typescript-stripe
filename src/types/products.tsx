@@ -5,7 +5,7 @@ export interface IProducts {
   name: string;
   description: string;
   price: IFormattedCurrency;
-  media: {
-    source: string;
+  image: {
+    url: string;
   };
 }

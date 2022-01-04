@@ -42,6 +42,8 @@ const App: React.FC = () => {
     fetchCart();
   }, []);
 
+  if (products.length === 0) return <div>Loading...</div>;
+
   return (
     <div>
       <Navbar totalItems={cart.total_items} />
