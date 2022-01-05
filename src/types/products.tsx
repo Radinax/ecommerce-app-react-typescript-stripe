@@ -1,4 +1,4 @@
-import IFormattedCurrency from "./common";
+import { IFormattedCurrency } from "./common";
 
 export interface IProducts {
   id: string;

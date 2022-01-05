@@ -1,4 +1,4 @@
-import IFormattedCurrency from "./common";
+import { IFormattedCurrency, ICartItem } from "./common";
 
 export interface ICart {
   currency: {
@@ -6,7 +6,7 @@ export interface ICart {
     symbol: string;
   };
   id: string;
-  line_items: any;
+  line_items: ICartItem[];
   subtotal: IFormattedCurrency;
   total_items: number;
 }

@@ -47,8 +47,6 @@ const Product: React.FC<Props> = ({ product, onAddToCart }) => {
     </IconButton>
   );
 
-  console.log("media", product);
-
   return (
     <Card className={classes.root}>
       <CardMedia className={classes.media} image={image.url} title={name} />
