@@ -22,8 +22,6 @@ const Navbar: React.FC<Props> = ({ totalItems }) => {
   const classes = useStyles();
   const location = useLocation();
 
-  if (location.pathname === "/") return;
-
   const logoImage = (
     <Typography variant="h6" className={classes.title}>
       <img
