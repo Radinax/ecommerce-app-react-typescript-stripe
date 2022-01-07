@@ -35,22 +35,6 @@ const AddressForm: React.FC<Props> = ({ checkoutToken, next }) => {
   const [shippingSubdivision, setShippingSubdivision] = useState("");
   const [shippingOptions, setShippingOptions] = useState<IShippingLabel[]>([]);
   const [shippingOption, setShippingOption] = useState("");
-  /*
-  const countriesById = Object.entries(shippingCountries).map(([code, name]) => ({
-    id: code,
-    label: name,
-  }));
-  const subdivisions = Object.entries(shippingSubdivisions).map(
-    ([code, name]) => ({
-      id: code,
-      label: name,
-    })
-  );
-  const options = shippingOptions.map((option) => ({
-    id: option.id,
-    label: `${option.description} - (${option.price.formatted_with_symbol})`,
-  }));
-  */
 
   const fetchShippingCountries = async (checkoutTokenId: string) => {
     const { countries } = await commerce.services.localeListShippingCountries(
@@ -79,7 +63,7 @@ const AddressForm: React.FC<Props> = ({ checkoutToken, next }) => {
     );
 
     setShippingSubdivisions(subdivisionsById);
-    setShippingSubdivision(Object.keys(subdivisions)[0]);
+    setShippingSubdivision(subdivisionsById[0].id);
   };
 
   const fetchShippingOptions = async (
@@ -98,7 +82,7 @@ const AddressForm: React.FC<Props> = ({ checkoutToken, next }) => {
     }));
 
     setShippingOptions(optionsById);
-    setShippingOption(options[0].id);
+    setShippingOption(optionsById[0].id);
   };
 
   useEffect(() => {
@@ -127,6 +111,13 @@ const AddressForm: React.FC<Props> = ({ checkoutToken, next }) => {
 
   const onChangeShippingOption = (e: React.ChangeEvent<{ value: unknown }>) =>
     setShippingOption(e.target.value as string);
+
+  if (
+    shippingCountry === "" ||
+    shippingOption === "" ||
+    shippingSubdivision === ""
+  )
+    return <div>Loading,,,</div>;
 
   return (
     <>
@@ -173,16 +164,11 @@ const AddressForm: React.FC<Props> = ({ checkoutToken, next }) => {
                 fullWidth
                 onChange={onChangeShippingSubdivision}
               >
-                {Object.entries(shippingSubdivisions)
-                  .map(([code, name]) => ({
-                    id: code,
-                    label: name,
-                  }))
-                  .map((subdivision) => (
-                    <MenuItem key={subdivision.id} value={subdivision.id}>
-                      {subdivision.label}
-                    </MenuItem>
-                  ))}
+                {shippingSubdivisions.map((subdivision) => (
+                  <MenuItem key={subdivision.id} value={subdivision.id}>
+                    {subdivision.label}
+                  </MenuItem>
+                ))}
               </Select>
             </Grid>
 

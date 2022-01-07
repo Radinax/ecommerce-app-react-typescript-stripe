@@ -10,7 +10,6 @@ import {
 
 import useStyles from "./styles";
 import { ILineItem } from "../../../types/carts";
-import { imageListClasses } from "@mui/material";
 
 interface Props {
   item: ILineItem;
@@ -57,7 +56,9 @@ const CartItem: React.FC<Props> = ({
           >
             -
           </Button>
-          <Typography>&nbsp;{item.quantity}&nbsp;</Typography>
+          <Typography data-cy="quantity">
+            &nbsp;{item.quantity}&nbsp;
+          </Typography>
           <Button
             type="button"
             size="small"
