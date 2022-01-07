@@ -37,7 +37,6 @@ describe("Correct initial view", () => {
 
   test("product image is shown", () => {
     const productName = screen.getByText(product.name);
-    // expect(container.firstChild.classList.contains('foo')).toBe(true)
     expect(productName).toHaveStyle(
       `background-color: url(${product.image.url})`
     );

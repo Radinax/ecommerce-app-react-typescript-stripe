@@ -10,6 +10,7 @@ import {
 import { useForm, FormProvider } from "react-hook-form";
 import { Link } from "react-router-dom";
 import FormInput from "./FormInput";
+import { IShippingOptions, IShippingLabel } from "../../types";
 
 import { commerce } from "../../lib/commerce";
 
@@ -24,14 +25,18 @@ interface Props {
 
 const AddressForm: React.FC<Props> = ({ checkoutToken, next }) => {
   const methods = useForm();
-  const [shippingCountries, setShippingCountries] = useState([]);
+  const [shippingCountries, setShippingCountries] = useState<IShippingLabel[]>(
+    []
+  );
   const [shippingCountry, setShippingCountry] = useState("");
-  const [shippingSubdivisions, setShippingSubdivisions] = useState([]);
+  const [shippingSubdivisions, setShippingSubdivisions] = useState<
+    IShippingLabel[]
+  >([]);
   const [shippingSubdivision, setShippingSubdivision] = useState("");
-  const [shippingOptions, setShippingOptions] = useState([]);
+  const [shippingOptions, setShippingOptions] = useState<IShippingLabel[]>([]);
   const [shippingOption, setShippingOption] = useState("");
-
-  const countries = Object.entries(shippingCountries).map(([code, name]) => ({
+  /*
+  const countriesById = Object.entries(shippingCountries).map(([code, name]) => ({
     id: code,
     label: name,
   }));
@@ -45,13 +50,19 @@ const AddressForm: React.FC<Props> = ({ checkoutToken, next }) => {
     id: option.id,
     label: `${option.description} - (${option.price.formatted_with_symbol})`,
   }));
+  */
 
   const fetchShippingCountries = async (checkoutTokenId: string) => {
     const { countries } = await commerce.services.localeListShippingCountries(
       checkoutTokenId
     );
 
-    setShippingCountries(countries);
+    const countriesById = Object.entries(countries).map(([code, name]) => ({
+      id: code,
+      label: name,
+    }));
+
+    setShippingCountries(countriesById);
     setShippingCountry(Object.keys(countries)[0]);
   };
 
@@ -60,21 +71,33 @@ const AddressForm: React.FC<Props> = ({ checkoutToken, next }) => {
       countryCode
     );
 
-    setShippingSubdivisions(subdivisions);
+    const subdivisionsById = Object.entries(subdivisions).map(
+      ([code, name]) => ({
+        id: code,
+        label: name,
+      })
+    );
+
+    setShippingSubdivisions(subdivisionsById);
     setShippingSubdivision(Object.keys(subdivisions)[0]);
   };
 
   const fetchShippingOptions = async (
     checkoutTokenId: string,
     country: string,
-    region: string = null
+    region: string = ""
   ) => {
     const options = await commerce.checkout.getShippingOptions(
       checkoutTokenId,
       { country, region }
     );
 
-    setShippingOptions(options);
+    const optionsById = options.map((option) => ({
+      id: option.id,
+      label: `${option.description} - (${option.price.formatted_with_symbol})`,
+    }));
+
+    setShippingOptions(optionsById);
     setShippingOption(options[0].id);
   };
 
@@ -135,7 +158,7 @@ const AddressForm: React.FC<Props> = ({ checkoutToken, next }) => {
                 fullWidth
                 onChange={onChangeShippingCountry}
               >
-                {countries.map((country) => (
+                {shippingCountries.map((country) => (
                   <MenuItem key={country.id} value={country.id}>
                     {country.label}
                   </MenuItem>
@@ -150,11 +173,16 @@ const AddressForm: React.FC<Props> = ({ checkoutToken, next }) => {
                 fullWidth
                 onChange={onChangeShippingSubdivision}
               >
-                {subdivisions.map((subdivision) => (
-                  <MenuItem key={subdivision.id} value={subdivision.id}>
-                    {subdivision.label}
-                  </MenuItem>
-                ))}
+                {Object.entries(shippingSubdivisions)
+                  .map(([code, name]) => ({
+                    id: code,
+                    label: name,
+                  }))
+                  .map((subdivision) => (
+                    <MenuItem key={subdivision.id} value={subdivision.id}>
+                      {subdivision.label}
+                    </MenuItem>
+                  ))}
               </Select>
             </Grid>
 
@@ -165,7 +193,7 @@ const AddressForm: React.FC<Props> = ({ checkoutToken, next }) => {
                 fullWidth
                 onChange={onChangeShippingOption}
               >
-                {options.map((option) => (
+                {shippingOptions.map((option) => (
                   <MenuItem key={option.id} value={option.id}>
                     {option.label}
                   </MenuItem>

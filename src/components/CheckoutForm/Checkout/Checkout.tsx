@@ -51,14 +51,11 @@ const Checkout: React.FC<Props> = ({ cart }) => {
 
   const Form = () =>
     activeStep === 0 ? (
-      <AddressForm checkoutToken={checkoutToken} next={next} />
+      <AddressForm checkoutToken={checkoutToken} next={nextStep} />
     ) : (
       <PaymentForm />
     );
 
-  const next = (data) => {
-    setShippingData(data);
-  };
   return (
     <>
       <div className={classes.toolbar} />

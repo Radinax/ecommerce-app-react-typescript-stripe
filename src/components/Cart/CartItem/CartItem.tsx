@@ -9,10 +9,11 @@ import {
 } from "@material-ui/core";
 
 import useStyles from "./styles";
-import { ICartItem } from "../../../types/common";
+import { ILineItem } from "../../../types/carts";
+import { imageListClasses } from "@mui/material";
 
 interface Props {
-  item: ICartItem;
+  item: ILineItem;
   handleRemoveFromCart: (productId: string) => void;
   handleUpdateCartQty: (productId: string, quantity: number) => void;
   handleEmptyCart: () => void;
@@ -31,14 +32,15 @@ const CartItem: React.FC<Props> = ({
   const onRemoveFromCart = (lineItemId: string) =>
     handleRemoveFromCart(lineItemId);
 
-  console.log(item);
-
+  const image = item ? (item.image ? item.image.url : "") : "";
+  // const image = item?.image?.url || "";
   return (
     <Card className="cart-item">
       <CardMedia
-        image={item.image.url}
+        image={image}
         alt={item.name}
         className={classes.media}
+        component="img"
       />
       <CardContent className={classes.cardContent}>
         <Typography variant="h4">{item.name}</Typography>

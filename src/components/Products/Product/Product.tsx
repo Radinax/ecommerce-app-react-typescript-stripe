@@ -49,7 +49,11 @@ const Product: React.FC<Props> = ({ product, onAddToCart }) => {
 
   return (
     <Card className={classes.root}>
-      <CardMedia className={classes.media} image={image.url} title={name} />
+      <CardMedia
+        className={classes.media}
+        image={image ? image.url : ""}
+        title={name}
+      />
       <CardContent>
         <div className={classes.cardContent}>
           {ProductName}

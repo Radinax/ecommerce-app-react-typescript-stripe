@@ -28,7 +28,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
     "eject": "react-scripts eject",
     "cypress:open": "cypress open",
     "test:e2e": "cypress run"
@@ -42,7 +42,9 @@
       "react-app/jest"
     ],
     "plugins": [
-      "cypress"
+      "cypress",
+      "@babel/plugin-proposal-nullish-coalescing-operator",
+      "@babel/plugin-proposal-optional-chaining"
     ]
   },
   "browserslist": {
@@ -58,7 +60,10 @@
     ]
   },
   "devDependencies": {
+    "@sheerun/mutationobserver-shim": "^0.3.3",
+    "@types/chec__commerce.js": "^2.8.4",
     "cypress": "^9.2.0",
-    "eslint-plugin-cypress": "^2.12.1"
+    "eslint-plugin-cypress": "^2.12.1",
+    "jest-environment-jsdom-sixteen": "^2.0.0"
   }
 }

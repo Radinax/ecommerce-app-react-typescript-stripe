@@ -1,11 +1,3 @@
-import { IFormattedCurrency } from "./common";
+import { Product } from "chec__commerce.js/types/product";
 
-export interface IProducts {
-  id: string;
-  name: string;
-  description: string;
-  price: IFormattedCurrency;
-  image: {
-    url: string;
-  };
-}
+export interface IProducts extends Product {}

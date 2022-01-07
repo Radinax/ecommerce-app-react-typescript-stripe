@@ -4,38 +4,9 @@ import { Products, Navbar, Cart, Checkout } from "./components";
 import { IProducts, ICart } from "./types";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-const initialCartValues = {
-  currency: {
-    code: "",
-    symbol: "",
-  },
-  id: "",
-  line_items: [
-    {
-      id: "",
-      name: "",
-      image: {
-        url: "",
-      },
-      line_total: {
-        formatted: "",
-        formatter_with_code: "",
-        formatted_with_symbol: "",
-      },
-      quantity: 0,
-    },
-  ],
-  subtotal: {
-    formatted: "",
-    formatter_with_code: "",
-    formatted_with_symbol: "",
-  },
-  total_items: 0,
-};
-
 const App: React.FC = () => {
   const [products, setProducts] = useState<IProducts[]>([]);
-  const [cart, setCart] = useState<ICart>(initialCartValues);
+  const [cart, setCart] = useState<ICart | null>(null);
 
   const fetchProducts = async () => {
     const { data } = await commerce.products.list();
@@ -75,7 +46,7 @@ const App: React.FC = () => {
     fetchCart();
   }, []);
 
-  if (products.length === 0) return <div>Loading...</div>;
+  if (products.length === 0 || cart === null) return <div>Loading...</div>;
 
   return (
     <Router>
