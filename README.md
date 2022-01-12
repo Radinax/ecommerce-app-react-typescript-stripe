@@ -12,7 +12,7 @@
     Ecommerce shop project used to create a shop using chec commerce JS API with Stripe to create a functional shop where the owner can publish products for clients to pay. We used Material UI, Stripe, Commerce JS, TypeScript, React and we tested using Cypress and React Testing Library
     <br />
     <br />
-    <a href="https://github.com/radinax/ecommerce-app-react-typescript">View Demo</a>
+    <a href="https://pensive-johnson-9ed460.netlify.app/">View Demo</a>
     ·
     <a href="https://github.com/radinax/ecommerce-app-react-typescript/issues">Report Bug</a>
     ·
