@@ -1,6 +1,6 @@
 describe("Select Product View", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000");
+    cy.visitSite();
   });
 
   // Opens
@@ -21,7 +21,7 @@ describe("Select Product View", () => {
 
 describe("Cart view", () => {
   before(() => {
-    cy.visit("http://localhost:3000");
+    cy.visitSite();
     cy.get(`.MuiBadge-badge`).as("badgeValue");
     cy.get(`[aria-label="Add to Card"]`)
       .first()
@@ -64,5 +64,40 @@ describe("Cart view", () => {
           .children()
           .should("have.length", 0)
       );
+  });
+});
+
+Cypress.on("uncaught:exception", (err, runnable) => {
+  return false;
+});
+
+describe.only("checkout workflow", () => {
+  before(() => {
+    cy.visitSite();
+    cy.get(`.MuiBadge-badge`).as("badgeValue");
+    cy.get(`[aria-label="Add to Card"]`)
+      .first()
+      .click()
+      .then(() => cy.visit("/cart"));
+    cy.contains(".MuiButton-text", "+").click();
+    cy.visit("/checkout");
+    cy.wait(10000);
+  });
+
+  it("loads the view", () => {
+    cy.contains("h6", "Shipping Address");
+  });
+
+  it("user can fill form", () => {
+    cy.get('input[name="firstName"]').type("Jhon");
+    cy.get('input[name="lastName"]').type("Doe");
+    cy.get('input[name="address1"]').type("Street neverland");
+    cy.get('input[name="email"]').type("Jhon@doe.com");
+    cy.get('input[name="city"]').type("Neverland");
+    cy.get('input[name="zip"]').type("1234");
+
+    cy.clickSelectInputOption("Shipping Country");
+    cy.clickSelectInputOption("Shipping Subdivision");
+    cy.clickSelectInputOption("Shipping Options");
   });
 });
